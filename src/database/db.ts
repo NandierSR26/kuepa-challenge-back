@@ -14,8 +14,6 @@ export const connectDB = async (options: Options) => {
     await mongoose.connect(mongoUrl, {
       dbName: dbName,
     });
-
-    console.log('DB connected')
     return true;
 
   } catch (error) {

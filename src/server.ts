@@ -1,46 +1,69 @@
-import express, { Router } from 'express';
-
-interface Options {
-  port: number;
-  public_path?: string;
-  routes: Router;
-}
+import express from 'express';
+import http from 'http';
+import path from 'path';
+import {Server as socketio} from 'socket.io';
+import router from './routes/routes'
+import cors from 'cors'
+import { Sockets } from './sockets';
+import { envs } from './config/envs';
+import { connectDB } from './database/db';
 
 export class Server {
 
-  public readonly app = express();
-  private serverListener?: any;
-  private readonly port: number;
-  private readonly routes: Router;
-  private readonly publicPath: string;
+  private app;
+  private port;
+  private server;
+  private io;
 
-  constructor(options: Options) {
-    const { port, public_path = 'public', routes } = options;
-    this.port = port;
-    this.routes = routes
-    this.publicPath = public_path;
+  constructor() {
+
+    this.app = express();
+    this.port = envs.PORT;
+
+    connectDB({
+       dbName: envs.MONGO_DB_NAME,
+       mongoUrl: envs.MONGO_URL
+    }).then(() => console.log('DB connected'));
+
+
+    // Http server
+    this.server = http.createServer(this.app);
+
+    // Configuraciones de sockets
+    this.io = new socketio( this.server );
   }
 
-  async start() {
+  middlewares() {
+    // Desplegar el directorio público
+    this.app.use(express.static(__dirname + '/public'));
 
-    //* Middlewares
-    this.app.use( express.json() ); // raw
-    this.app.use( express.urlencoded({ extended: true }) ); // x-www-form-urlencoded
+    // TODO: cors
+    this.app.use(cors())
 
-    //* Routes
-    this.app.use( this.routes ) 
+    // parseo del body
+    this.app.use(express.json());
 
-    //* Public Folder
-    this.app.use( express.static( this.publicPath ) );
+    // API endpoints
+    this.app.use( router );
+  }
 
-    this.serverListener = this.app.listen(this.port, () => {
-      console.log(`Server running on port ${ this.port }`);
+
+  configurarSockets() {
+    new Sockets(this.io);
+  }
+
+  execute() {
+
+    // Inicializar Middlewares
+    this.middlewares();
+
+    // Inicializar sockets
+    this.configurarSockets();
+
+    // Inicializar Server
+    this.server.listen(this.port, () => {
+      console.log('Server corriendo en puerto:', this.port);
     });
-
-  }
-
-  public close() {
-    this.serverListener?.close();
   }
 
 }
