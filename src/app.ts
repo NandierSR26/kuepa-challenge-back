@@ -11,7 +11,7 @@ async function main() {
 
   await connectDB({
     dbName: 'chatdb',
-    mongoUrl: 'mongodb://mongo-user:123456@localhost:27017'
+    mongoUrl: 'mongodb+srv://main_user:BE9y9zyOn8v8lEpO@kuepa-technical-test.dldmio4.mongodb.net/kuepadb?retryWrites=true&w=majority&appName=kuepa-technical-test'
   });
 
   const server = new Server({
