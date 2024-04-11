@@ -1,3 +1,4 @@
+import { envs } from "./config/envs";
 import { connectDB } from "./database/db";
 import { Server } from "./server";
 
@@ -10,12 +11,12 @@ import { Server } from "./server";
 async function main() {
 
   await connectDB({
-    dbName: 'chatdb',
-    mongoUrl: 'mongodb+srv://main_user:BE9y9zyOn8v8lEpO@kuepa-technical-test.dldmio4.mongodb.net/kuepadb?retryWrites=true&w=majority&appName=kuepa-technical-test'
+    dbName: envs.MONGO_DB_NAME,
+    mongoUrl: envs.MONGO_URL
   });
 
   const server = new Server({
-    port: 3000,
+    port: envs.PORT,
   });
 
   server.start();
