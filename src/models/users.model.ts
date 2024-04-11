@@ -21,6 +21,10 @@ const UsersSchema = new Schema({
     type: [String],
     default: ['STUDENT'],
     enum: ['STUDENT', 'MODERATOR']
+  },
+  online: {
+    type: Boolean,
+    default: false
   }
 });
 
