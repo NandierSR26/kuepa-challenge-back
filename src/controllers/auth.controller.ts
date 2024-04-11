@@ -37,3 +37,9 @@ export const login = async( req: Request, res: Response ) => {
     return handleError({ code: 500, message: 'Something went wrong', res });
   }
 }
+
+export const validateAuth = async(req: Request, res: Response) => {
+  if(req.body.user) return handleSuccess({ code: 200, message: 'User is authenticated', res });
+
+  return handleError({ code: 401, message: 'User is not authenticated', res });
+}
