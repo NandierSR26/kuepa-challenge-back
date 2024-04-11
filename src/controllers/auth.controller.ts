@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserModel } from '../models/users.model';
 import { bcryptAdapter } from '../config/bcrypt.adapter';
+import { handleError, handleSuccess } from '../config/handleReponses';
 
 export const Register = async(req: Request, res: Response) => {
   try {
@@ -9,10 +10,8 @@ export const Register = async(req: Request, res: Response) => {
     user.password = bcryptAdapter.hash( req.body.password );
     await user.save();
 
-    return res.json({
-      user
-    })
+    return handleSuccess({code: 200, message: 'User created', res, data: user})
   } catch (error) {
-    console.log(error)
+    return handleError({ code: 500, message: 'Something went wrong', res });
   }
 }
