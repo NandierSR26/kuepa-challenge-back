@@ -14,6 +14,7 @@ export  class Sockets {
     socketEvents() {
         // On connection
         this.io.on('connection', async (socket) => {
+            console.log('Socket.io connected');
             const payload = await validateToken( socket.handshake.query['token'] as string )
 
             if( !payload ) {
@@ -25,7 +26,7 @@ export  class Sockets {
 
             socket.join( payload.id );
 
-            
+
         });
     }
 

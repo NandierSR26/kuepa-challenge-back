@@ -39,7 +39,9 @@ export const login = async( req: Request, res: Response ) => {
 }
 
 export const validateAuth = async(req: Request, res: Response) => {
-  if(req.body.user) return handleSuccess({ code: 200, message: 'User is authenticated', res });
+  console.log(req.body.user);
+  
+  if(req.body.user) return handleSuccess({ code: 200, message: 'User is authenticated', res, data: req.body.user });
 
   return handleError({ code: 401, message: 'User is not authenticated', res });
 }
