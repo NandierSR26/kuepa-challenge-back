@@ -1,6 +1,7 @@
 import { envs } from "./config/envs";
 import { connectDB } from "./database/db";
 import { Server } from "./server";
+import appRoutes from './routes/routes'
 
 
 (async()=> {
@@ -17,6 +18,7 @@ async function main() {
 
   const server = new Server({
     port: envs.PORT,
+    routes: appRoutes
   });
 
   server.start();
