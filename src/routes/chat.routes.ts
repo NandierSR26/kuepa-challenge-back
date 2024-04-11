@@ -5,4 +5,5 @@ const router = Router();
 
 router.get('/from/:id', getChat);
 
+
 export default router;

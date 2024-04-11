@@ -1,6 +1,8 @@
 import { Server } from 'socket.io'
 import { validateToken } from './config/jwt.adapter';
-import { connectUser } from './controllers/users.controller';
+import { connectUser, getOnlineUsers } from './controllers/users.controller';
+import { recordMessage } from './controllers/chat.controller';
+import { Document } from 'mongoose';
 
 export  class Sockets {
 
@@ -25,6 +27,16 @@ export  class Sockets {
             await connectUser(payload.id);
 
             socket.join( payload.id );
+
+            this.io.emit('list-users', await getOnlineUsers());
+
+            socket.on('message-to-group', async(payload) => {
+                const message = await recordMessage( payload );
+
+                payload.to.forEach( (p: any) => {
+                    this.io.to( p.id ).emit('message-to-group', message);
+                } )
+            })
 
 
         });
