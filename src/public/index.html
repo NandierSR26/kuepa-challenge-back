@@ -2,37 +2,25 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Socket Server</title>
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
-    integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+    
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+    rel="stylesheet">
+  <title>Vite + React + TS</title>
+  <script type="module" crossorigin src="/assets/index-9abce6bd.js"></script>
+  <link rel="stylesheet" href="/assets/index-9a234aac.css">
 </head>
 
-<body class="container">
-
-  <h1 class="mt-5">Acceso denegado</h1>
-  <hr>
-
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-
-  <script>
-    // Conexión con el socket server
-    const socket = io('http://localhost:3000');
-
-
-    /// Para emitir
-    // socket.emit('mensaje-to-server', { data });
-
-    // Para escuchar
-    socket.on('mensaje-from-server', (data) => {
-      // callback a ejecutar
-    });
-
-
-  </script>
-
+<body>
+  <div id="root"></div>
+  
 </body>
 
 </html>

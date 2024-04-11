@@ -14,8 +14,8 @@ export  class Sockets {
     socketEvents() {
         // On connection
         this.io.on('connection', async (socket) => {
-            console.log('Socket.io connected');
             const payload = await validateToken( socket.handshake.query['token'] as string )
+            // console.log({payload})
 
             if( !payload ) {
                 console.log('Invalid socket');

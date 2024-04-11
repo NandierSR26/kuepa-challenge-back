@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UserModel } from '../models/users.model';
 import { bcryptAdapter } from '../config/bcrypt.adapter';
 import { handleError, handleSuccess } from '../config/handleReponses';
-import { generateToken } from '../config/jwt.adapter';
+import { generateToken, validateToken } from '../config/jwt.adapter';
 
 export const Register = async(req: Request, res: Response) => {
   try {
@@ -39,9 +39,14 @@ export const login = async( req: Request, res: Response ) => {
 }
 
 export const validateAuth = async(req: Request, res: Response) => {
-  console.log(req.body.user);
+  const token = req.params.token
   
-  if(req.body.user) return handleSuccess({ code: 200, message: 'User is authenticated', res, data: req.body.user });
+  const payload = await validateToken(token);
+  if(!payload) return handleError({ code: 401, message: 'User is not authenticated', res });
+
+  const user = await UserModel.findById(payload.id);
+
+  if(user) return handleSuccess({ code: 200, message: 'Is authenticated', res, data: {user, token} })
 
   return handleError({ code: 401, message: 'User is not authenticated', res });
 }

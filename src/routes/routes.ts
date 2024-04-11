@@ -7,7 +7,6 @@ const router = Router();
 
 router.use('/api/v1/auth', authRoutes);
 
-router.use('/', validateJWT);
 router.use('/api/v1/chat', chatRoutes);
 
 export default router;

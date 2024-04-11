@@ -45,6 +45,10 @@ export class Server {
 
     // API endpoints
     this.app.use( router );
+
+    this.app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+    });
   }
 
 
