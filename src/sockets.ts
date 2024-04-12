@@ -33,9 +33,10 @@ export  class Sockets {
             socket.on('message-to-group', async(payload) => {
                 const message = await recordMessage( payload );
 
+                this.io.to( payload.from ).emit('message-to-group', message);
                 payload.to.forEach( (p: any) => {
                     this.io.to( p.id ).emit('message-to-group', message);
-                } )
+                })
             })
 
 

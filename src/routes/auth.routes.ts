@@ -13,6 +13,6 @@ router.post('/register', [
   validateUsername
 ], Register);
 
-router.get('/validate/:token', [], validateAuth);
+router.get('/validate/:token', validateAuth);
 
 export default router

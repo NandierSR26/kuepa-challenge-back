@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const UsersSchema = new Schema({
+export const UsersSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Name is required']
@@ -24,6 +24,7 @@ const UsersSchema = new Schema({
   },
   online: {
     type: Boolean,
+    required: true,
     default: false
   }
 });

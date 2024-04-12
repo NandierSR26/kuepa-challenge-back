@@ -13,7 +13,8 @@ declare global {
 }
 
 export const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
-  const { authorization } = req.headers;
+  const authorization = req.header('Authorization');
+
   if (!authorization) return handleError({ code: 401, message: 'No token provided', res });
   if (!authorization.startsWith('Bearer ')) return handleError({ code: 401, message: 'Invalid Bearer token', res });
 

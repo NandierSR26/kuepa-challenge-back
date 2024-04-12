@@ -1,14 +1,15 @@
 import mongoose, { Schema } from "mongoose";
+import { UsersSchema } from "./users.model";
 
-const ChatSchema = new Schema({
+export const ChatSchema = new Schema({
   from: {
     type: Schema.Types.ObjectId,
-    ref: 'Usuario',
+    ref: 'User',
     required: true
   },
   to: {
     type: [Schema.Types.ObjectId],
-    ref: 'Usuario',
+    ref: 'User',
     required: true,
     validate: {
       validator: function (this: mongoose.SchemaType, value: any) {
@@ -29,6 +30,11 @@ const ChatSchema = new Schema({
   },
   file: {
     type: String
+  },
+  destination_type: {
+    type: String,
+    required: true,
+    enum: ["USER", "GROUP"]
   }
 }, {
   timestamps: true
@@ -44,3 +50,4 @@ ChatSchema.set('toJSON', {
 })
 
 export const ChatModel = mongoose.model('Chat', ChatSchema)
+const UserModel = mongoose.model('User', UsersSchema)

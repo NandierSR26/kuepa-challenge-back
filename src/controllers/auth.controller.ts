@@ -9,6 +9,7 @@ export const Register = async(req: Request, res: Response) => {
     const user = await UserModel.create(req.body);
 
     user.password = bcryptAdapter.hash( req.body.password );
+    user.online = false;
     await user.save();
 
     return handleSuccess({code: 200, message: 'User created', res, data: user});
