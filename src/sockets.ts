@@ -27,16 +27,14 @@ export  class Sockets {
             await connectUser(payload.id);
 
             socket.join( payload.id );
+            socket.join('group')
 
             this.io.emit('list-users', await getOnlineUsers());
 
             socket.on('message-to-group', async(payload) => {
                 const message = await recordMessage( payload );
 
-                this.io.to( payload.from ).emit('message-to-group', message);
-                payload.to.forEach( (p: any) => {
-                    this.io.to( p.id ).emit('message-to-group', message);
-                })
+                this.io.to('group').emit('message-to-group', message);
             })
 
 
