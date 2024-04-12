@@ -12,7 +12,10 @@ export const Register = async(req: Request, res: Response) => {
     user.online = false;
     await user.save();
 
-    return handleSuccess({code: 200, message: 'User created', res, data: user});
+    const token = await generateToken({ id: user!.id });
+    if ( !token ) return handleError({ code: 500, message: 'Error while creating JWT', res });
+
+    return handleSuccess({code: 200, message: 'User created', res, data: {user, token}});
   } catch (error) {
     return handleError({ code: 500, message: 'Something went wrong', res });
   }
